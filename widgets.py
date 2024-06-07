@@ -31,11 +31,11 @@ class Text(Text_Style,Property):
         super(Text,self).__init__()
         self.text_caption = 'Text'
         self.font_name = 'Arial'
-        self.text_size = 10
+        self.text_size = 12
         self.font_object: pygame.font.Font = None
         self.surface: pygame.surface.Surface = None
 
-    def __init__(self, text_caption='Text', font_name='Arial', text_size=10, bold=False, italic=False, foreground_color='black', background_color=None, position: pygame.Vector2 = pygame.Vector2(0, 0), vertical_alignment='center', horizontal_alignment='center'):
+    def __init__(self, text_caption='Text', font_name='Arial', text_size=12, bold=False, italic=False, foreground_color='black', background_color=None, position: pygame.Vector2 = pygame.Vector2(0, 0), vertical_alignment='center', horizontal_alignment='center'):
         super(Text,self).__init__()
         self.text_caption = text_caption
         self.font_name = font_name
@@ -86,13 +86,14 @@ class Button(Style,Property):
         self._text_surface: pygame.surface.Surface = self._font_object.render(
             button_text, False, self._text_object.foreground_color, self._text_object.background_color)
 
-    def draw(self):
+    def draw(self): 
         if self.visible:
             pygame.draw.rect(self.display_surface, self.foreground_color, (self.position.x, self.position.y, self.position.x+self.width, self.position.y+self.height),
                              self.border_width, self.border_radius, self.border_top_left_radius, self.border_top_right_radius, self.border_bottom_left_radius, self.border_bottom_right_radius)
             if self.background_color:
-                pygame.surface.Surface().fill(self.background_color,)
-            # button_text_width,button_text_height=button_font.size(self.button_text)
+                background_surface=pygame.surface.Surface((self.width-self.border_width*2, self.height-self.border_width*2))
+                background_surface.fill(self.background_color)
+                self.display_surface.blit(background_surface,(self.position.x+self.border_width,self.position.y+self.border_width))
             button_position_on_display = pygame.Vector2(
                 self.position.x, self.position.y)
             # horizontal alignment
@@ -118,3 +119,22 @@ class Button(Style,Property):
             pygame.display.flip()
         # return self so that draw can be called upon creating instance and return instance itself to store it
         return self
+
+
+class Window(Property):
+    def __init__(self) -> None:
+        super().__init__()
+        self.display_surface:pygame.surface.Surface=None
+        self.title='Window'
+    
+    def draw(self):
+        pass
+
+class Paused_Window(Window):
+    def __init__(self) -> None:
+        super().__init__()
+        self.title='Game Paused'
+    
+    def draw(self):
+        super().draw()
+        pass
