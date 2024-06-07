@@ -13,10 +13,10 @@ class Game():
     def __init__(self) -> None:
         self.PLAYGROUND = pygame.display.set_mode(
             (Game.DISPLAY_INFO.current_w-500, Game.DISPLAY_INFO.current_h-250))
-        self._paused_window:Paused_Window=Paused_Window()
+        self._paused_window:Paused_Window=Paused_Window(self.PLAYGROUND)
         self._time_delta=0
         self.is_not_closed=True
-        self.state:Literal['resumed','paused','over']='resumed'
+        self.state:Literal['resumed','paused','over']='paused'
         self.allow_through_wall=True
         self.move_speed=2
         self.snake:Snake=Snake()
@@ -90,12 +90,15 @@ class Game():
 
     def pause(self):
         self.state='paused'
-        # self._paused_window=
+        self._paused_window._window.background_color='green'
+        self._paused_window.draw()
+        # self.resume()
 
-        # PAUSED_SCREEN.fill((100,100,100,100))
-        # resume_button = Button(PAUSED_SCREEN,"Resume")
+
+        # self._paused_window._surface.fill((100,100,100,100))
+        # resume_button = Button(self._paused_window._surface,"Resume")
         # # resume_button.border_width=10
         # resume_button.background_color='cyan'
         # resume_button.draw()
-        # RESUMED_SCREEN.blit(PAUSED_SCREEN,(RESUMED_SCREEN.get_width()/2-PAUSED_SCREEN.get_width()/2,RESUMED_SCREEN.get_height()/2-PAUSED_SCREEN.get_height()/2))
+        # self.PLAYGROUND.blit(self._paused_window._surface,(self._paused_window._surface.get_width()/2-self._paused_window._surface.get_width()/2,self.PLAYGROUND.get_height()/2-self._paused_window._surface.get_height()/2))
         # # pygame.display.flip()

@@ -62,14 +62,14 @@ class Button(Style,Property):
         self.border_top_right_radius = -1
         self.border_bottom_left_radius = -1
         self.border_bottom_right_radius = -1
-        self.display_surface: pygame.surface.Surface = None
+        self._parent_surface: pygame.surface.Surface = None
         self._text_object: Text = Text()
         self._font_object: pygame.font.Font = pygame.font.SysFont(
             self._text_object.font_name, self._text_object.text_size, self._text_object.bold, self._text_object.italic)
         self._text_surface: pygame.surface.Surface = self._font_object.render(
             self._text_object.font_name, False, self._text_object.foreground_color, self._text_object.background_color)
 
-    def __init__(self, display_surface: pygame.surface.Surface, button_text: str):
+    def __init__(self, _parent_surface: pygame.surface.Surface, button_text: str):
         super(Button,self).__init__()
         self.width = 100
         self.height = 30
@@ -79,7 +79,7 @@ class Button(Style,Property):
         self.border_top_right_radius = -1
         self.border_bottom_left_radius = -1
         self.border_bottom_right_radius = -1
-        self.display_surface = display_surface
+        self._parent_surface = _parent_surface
         self._text_object: Text = Text()
         self._font_object: pygame.font.Font = pygame.font.SysFont(
             self._text_object.font_name, self._text_object.text_size, self._text_object.bold, self._text_object.italic)
@@ -88,12 +88,12 @@ class Button(Style,Property):
 
     def draw(self): 
         if self.visible:
-            pygame.draw.rect(self.display_surface, self.foreground_color, (self.position.x, self.position.y, self.position.x+self.width, self.position.y+self.height),
+            pygame.draw.rect(self._parent_surface, self.foreground_color, (self.position.x, self.position.y, self.position.x+self.width, self.position.y+self.height),
                              self.border_width, self.border_radius, self.border_top_left_radius, self.border_top_right_radius, self.border_bottom_left_radius, self.border_bottom_right_radius)
             if self.background_color:
                 background_surface=pygame.surface.Surface((self.width-self.border_width*2, self.height-self.border_width*2))
                 background_surface.fill(self.background_color)
-                self.display_surface.blit(background_surface,(self.position.x+self.border_width,self.position.y+self.border_width))
+                self._parent_surface.blit(background_surface,(self.position.x+self.border_width,self.position.y+self.border_width))
             button_position_on_display = pygame.Vector2(
                 self.position.x, self.position.y)
             # horizontal alignment
@@ -114,7 +114,7 @@ class Button(Style,Property):
             elif self._text_object.vertical_alignment == 'bottom':
                 button_position_on_display.y = self.position.y+self.height - \
                     self._text_surface.get_height()-self.border_width
-            self.display_surface.blit(
+            self._parent_surface.blit(
                 self._text_surface, button_position_on_display)
             pygame.display.flip()
         # return self so that draw can be called upon creating instance and return instance itself to store it
@@ -122,19 +122,46 @@ class Button(Style,Property):
 
 
 class Window(Property):
-    def __init__(self) -> None:
+    def __init__(self,parent_surface:pygame.surface.Surface) -> None:
         super().__init__()
-        self.display_surface:pygame.surface.Surface=None
+        self._surface:pygame.surface.Surface=None
+        # self._surface:pygame.surface.Surface=None
+        self._parent_surface:pygame.surface.Surface=parent_surface
         self.title='Window'
+        self.width=200
+        self.height=200
+        self.background_color='white'
+        self.title_line_color='black'
+        self.title_background_color='white'
     
     def draw(self):
-        pass
+        if not self._surface and self._parent_surface:
+            self._surface=pygame.surface.Surface((self.width,self.height))
+        if self.position.x<=0 and self.position.y<=0:
+            self.position.x=self._parent_surface.get_width()/2-self._surface.get_width()/2
+            self.position.y=self._parent_surface.get_height()/2-self._surface.get_height()/2
+        if self.visible and self._surface:
+            self._surface.fill(self.background_color)
+            pygame.draw.line(self._surface,self.title_line_color,(self.position.x,self.position.y+20),(self.position.x+self.width,self.position.y+20))
+            self._parent_surface.blit(self._surface,self.position)
 
-class Paused_Window(Window):
-    def __init__(self) -> None:
-        super().__init__()
-        self.title='Game Paused'
+class Paused_Window():
+    def __init__(self,parent_surface:pygame.surface.Surface) -> None:
+        # super().__init__()
+        self._window:Window=Window(parent_surface)
+        self._window.title='Game Paused'
+        self.resume_button:Button=None
+        
     
     def draw(self):
-        super().draw()
-        pass
+        if not self._window._surface: # initialize window surface
+            self._window.draw()
+        if self._window.visible:
+            if not self.resume_button: # resume button not initialized
+                self.resume_button=Button(self._window._surface,'Resume')
+                self.resume_button.background_color='cyan'
+            self.resume_button.draw()
+            self._window._parent_surface.blit(self._window._surface,self._window.position)
+            
+
+            
