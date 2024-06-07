@@ -41,6 +41,10 @@ class Snake():
             self.current_direction = game.pygame.K_UP
             self.position_of_head.y -= self._game.move_speed
             self.slither()
+        else:
+            # snake was moving down, but up key was pressed.
+            # so continue snake moving down
+            self.move_down()
 
     def move_down(self):
         # prevent reversing the direction in a straight line
@@ -54,6 +58,10 @@ class Snake():
             self.current_direction = game.pygame.K_DOWN
             self.position_of_head.y += self._game.move_speed
             self.slither()
+        else:
+            # snake was moving up, but down key was pressed.
+            # so continue snake moving up
+            self.move_up()
 
     def move_left(self):
         # prevent reversing the direction in a straight line
@@ -67,6 +75,10 @@ class Snake():
             self.current_direction = game.pygame.K_LEFT
             self.position_of_head.x -= self._game.move_speed
             self.slither()
+        else:
+            # snake was moving right, but left key was pressed.
+            # so continue snake moving right
+            self.move_right()
 
     def move_right(self):
         # prevent reversing the direction in a straight line
@@ -80,6 +92,10 @@ class Snake():
             self.current_direction = game.pygame.K_RIGHT
             self.position_of_head.x += self._game.move_speed
             self.slither()
+        else:
+            # snake was moving left, but right key was pressed.
+            # so continue snake moving left
+            self.move_left()
 
     def slither(self, appear=True,phase_shift=True,search_for_food=True,prevent_self_injury=True):
         # decrease the last tail of the snake
