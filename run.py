@@ -1,5 +1,6 @@
-import game
+from game import Game
 
 
-game.game.initialize()
-game.game.run()
+game=Game()
+game.initialize()
+game.run()

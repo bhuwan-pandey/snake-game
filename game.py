@@ -26,6 +26,9 @@ class Game():
     
     def initialize(self):
         self.snake.food_to_search_for = [self.normal_food, self.special_food]
+        self.snake._game=self
+        self.normal_food._game=self
+        self.special_food._game=self
     
     def run(self):
         while self.is_not_closed:
@@ -44,7 +47,7 @@ class Game():
                 self._time_delta = Game.CLOCK.tick(60) / 1000
                 continue
             
-            Game.PLAYGROUND.fill('purple') # background color of main resume screen
+            self.PLAYGROUND.fill('purple') # background color of main resume screen
 
             self.normal_food.serve()
             self.special_food.serve()
@@ -96,5 +99,3 @@ class Game():
         # resume_button.draw()
         # RESUMED_SCREEN.blit(PAUSED_SCREEN,(RESUMED_SCREEN.get_width()/2-PAUSED_SCREEN.get_width()/2,RESUMED_SCREEN.get_height()/2-PAUSED_SCREEN.get_height()/2))
         # # pygame.display.flip()
-
-game=Game()
