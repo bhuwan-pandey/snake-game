@@ -2,11 +2,12 @@ import game
 from food import Food
 from typing import List
 
+
 class Snake():
     def __init__(self) -> None:
-        self._game:game.Game=None
+        self._game: game.Game = None
         self.width = 10
-        self.position_of_head = game.pygame.Vector2(100,100)
+        self.position_of_head = game.pygame.Vector2(100, 100)
         self.position_of_directions = [game.pygame.Vector2(
             self.position_of_head.x+10, self.position_of_head.y)]
         self.current_direction = game.pygame.K_LEFT
@@ -15,10 +16,10 @@ class Snake():
         # this is used for phase_shift.
         self.directions_of_position = [
             {'direction': self.current_direction, 'draw_next': True}]
-        self.food_to_search_for : List[Food] = []
+        self.food_to_search_for: List[Food] = []
         # flag to determine whether or not the snake touched and went through a wall
         self.phase_shifted = False
-    
+
     def move(self):
         if self.current_direction == game.pygame.K_UP:
             self.move_up()
@@ -97,7 +98,7 @@ class Snake():
             # so continue snake moving left
             self.move_left()
 
-    def slither(self, appear=True,phase_shift=True,search_for_food=True,prevent_self_injury=True):
+    def slither(self, appear=True, phase_shift=True, search_for_food=True, prevent_self_injury=True):
         # decrease the last tail of the snake
         if self.directions_of_position[-1]['direction'] == game.pygame.K_UP:
             self.position_of_directions[-1].y -= self._game.move_speed
@@ -125,7 +126,7 @@ class Snake():
                     self.directions_of_position.pop()
         if not self._game.allow_through_wall:
             if self.position_of_head.x < 5 or self.position_of_head.x+5 >= self._game.PLAYGROUND.get_width() or self.position_of_head.y < 5 or self.position_of_head.y+5 >= self._game.PLAYGROUND.get_height():
-                self._game.state='paused'
+                self._game.state = 'paused'
         if appear:
             self.appear()
         if phase_shift:
@@ -162,9 +163,9 @@ class Snake():
                 self._game.PLAYGROUND, 'blue', (self.position_of_head.x+3, self.position_of_head.y), 1)
             # tongue
             game.pygame.draw.line(self._game.PLAYGROUND, 'red', (self.position_of_head.x,
-                                     self.position_of_head.y), (self.position_of_head.x-2, self.position_of_head.y-8), 1)
+                                                                 self.position_of_head.y), (self.position_of_head.x-2, self.position_of_head.y-8), 1)
             game.pygame.draw.line(self._game.PLAYGROUND, 'red', (self.position_of_head.x,
-                                     self.position_of_head.y), (self.position_of_head.x+2, self.position_of_head.y-8), 1)
+                                                                 self.position_of_head.y), (self.position_of_head.x+2, self.position_of_head.y-8), 1)
         elif self.current_direction == game.pygame.K_DOWN:
             # head
             game.pygame.draw.circle(
@@ -176,9 +177,9 @@ class Snake():
                 self._game.PLAYGROUND, 'blue', (self.position_of_head.x+3, self.position_of_head.y), 1)
             # tongue
             game.pygame.draw.line(self._game.PLAYGROUND, 'red', (self.position_of_head.x,
-                                     self.position_of_head.y), (self.position_of_head.x-2, self.position_of_head.y+8), 1)
+                                                                 self.position_of_head.y), (self.position_of_head.x-2, self.position_of_head.y+8), 1)
             game.pygame.draw.line(self._game.PLAYGROUND, 'red', (self.position_of_head.x,
-                                     self.position_of_head.y), (self.position_of_head.x+2, self.position_of_head.y+8), 1)
+                                                                 self.position_of_head.y), (self.position_of_head.x+2, self.position_of_head.y+8), 1)
         elif self.current_direction == game.pygame.K_LEFT:
             # head
             game.pygame.draw.circle(
@@ -190,9 +191,9 @@ class Snake():
                 self._game.PLAYGROUND, 'blue', (self.position_of_head.x, self.position_of_head.y+3), 1)
             # tongue
             game.pygame.draw.line(self._game.PLAYGROUND, 'red', (self.position_of_head.x,
-                                     self.position_of_head.y), (self.position_of_head.x-8, self.position_of_head.y-2), 1)
+                                                                 self.position_of_head.y), (self.position_of_head.x-8, self.position_of_head.y-2), 1)
             game.pygame.draw.line(self._game.PLAYGROUND, 'red', (self.position_of_head.x,
-                                     self.position_of_head.y), (self.position_of_head.x-8, self.position_of_head.y+2), 1)
+                                                                 self.position_of_head.y), (self.position_of_head.x-8, self.position_of_head.y+2), 1)
         elif self.current_direction == game.pygame.K_RIGHT:
             # head
             game.pygame.draw.circle(
@@ -204,9 +205,9 @@ class Snake():
                 self._game.PLAYGROUND, 'blue', (self.position_of_head.x, self.position_of_head.y+3), 1)
             # tongue
             game.pygame.draw.line(self._game.PLAYGROUND, 'red', (self.position_of_head.x,
-                                     self.position_of_head.y), (self.position_of_head.x+8, self.position_of_head.y-2), 1)
+                                                                 self.position_of_head.y), (self.position_of_head.x+8, self.position_of_head.y-2), 1)
             game.pygame.draw.line(self._game.PLAYGROUND, 'red', (self.position_of_head.x,
-                                     self.position_of_head.y), (self.position_of_head.x+8, self.position_of_head.y+2), 1)
+                                                                 self.position_of_head.y), (self.position_of_head.x+8, self.position_of_head.y+2), 1)
 
     def get_horizontal_body_coordinates(self):
         coordinates = []
@@ -262,86 +263,86 @@ class Snake():
                 # body line moving towards left
                 if reversed_directions_of_position[index_of_position]['direction'] == game.pygame.K_LEFT:
                     if self.position_of_head.x > reversed_position_of_directions[index_of_position+1].x and self.position_of_head.x < position_of_direction.x and self.position_of_head.y < position_of_direction.y+self.width/2 and self.position_of_head.y > position_of_direction.y-self.width/2:
-                        self._game.state='paused'
-                        print("up left")
+                        self._game.state = 'over'
+                        # print("up left")
                 # body line moving towards right
                 elif reversed_directions_of_position[index_of_position]['direction'] == game.pygame.K_RIGHT:
                     if self.position_of_head.x > position_of_direction.x and self.position_of_head.x < reversed_position_of_directions[index_of_position+1].x and self.position_of_head.y < position_of_direction.y+self.width/2 and self.position_of_head.y > position_of_direction.y-self.width/2:
-                        self._game.state='paused'
-                        print("up right")
+                        self._game.state = 'over'
+                        # print("up right")
                 # body line moving towards up
                 elif reversed_directions_of_position[index_of_position]['direction'] == game.pygame.K_UP:
                     if self.position_of_head.x > position_of_direction.x-self.width/2 and self.position_of_head.x < position_of_direction.x+self.width/2 and self.position_of_head.y < position_of_direction.y and self.position_of_head.y > reversed_position_of_directions[index_of_position+1].y:
-                        self._game.state='paused'
-                        print("up up")
+                        self._game.state = 'over'
+                        # print("up up")
                 # body line moving towards down
                 elif reversed_directions_of_position[index_of_position]['direction'] == game.pygame.K_DOWN:
                     if self.position_of_head.x > position_of_direction.x-self.width/2 and self.position_of_head.x < position_of_direction.x+self.width/2 and self.position_of_head.y < reversed_position_of_directions[index_of_position+1].y and self.position_of_head.y > position_of_direction.y:
-                        self._game.state='paused'
-                        print("up down")
+                        self._game.state = 'over'
+                        # print("up down")
             elif self.current_direction == game.pygame.K_DOWN:  # snake moving down
                 # body line moving towards left
                 if reversed_directions_of_position[index_of_position]['direction'] == game.pygame.K_LEFT:
                     if self.position_of_head.x > reversed_position_of_directions[index_of_position+1].x and self.position_of_head.x < position_of_direction.x and self.position_of_head.y > position_of_direction.y-self.width/2 and self.position_of_head.y < position_of_direction.y+self.width/2:
-                        self._game.state='paused'
-                        print("down left")
+                        self._game.state = 'over'
+                        # print("down left")
                 # body line moving towards right
                 elif reversed_directions_of_position[index_of_position]['direction'] == game.pygame.K_RIGHT:
                     if self.position_of_head.x > position_of_direction.x and self.position_of_head.x < reversed_position_of_directions[index_of_position+1].x and self.position_of_head.y > position_of_direction.y-self.width/2 and self.position_of_head.y < position_of_direction.y+self.width/2:
-                        self._game.state='paused'
-                        print("down right")
+                        self._game.state = 'over'
+                        # print("down right")
                 # body line moving towards up
                 elif reversed_directions_of_position[index_of_position]['direction'] == game.pygame.K_UP:
                     if self.position_of_head.x > position_of_direction.x-self.width/2 and self.position_of_head.x < position_of_direction.x+self.width/2 and self.position_of_head.y > reversed_position_of_directions[index_of_position+1].y and self.position_of_head.y < position_of_direction.y:
-                        self._game.state='paused'
-                        print("down up")
+                        self._game.state = 'over'
+                        # print("down up")
                 # body line moving towards down
                 elif reversed_directions_of_position[index_of_position]['direction'] == game.pygame.K_DOWN:
                     if self.position_of_head.x > position_of_direction.x-self.width/2 and self.position_of_head.x < position_of_direction.x+self.width/2 and self.position_of_head.y > position_of_direction.y and self.position_of_head.y < reversed_position_of_directions[index_of_position+1].y:
-                        self._game.state='paused'
-                        print("down down")
+                        self._game.state = 'over'
+                        # print("down down")
             elif self.current_direction == game.pygame.K_LEFT:  # snake moving down
                 # body line moving towards left
                 if reversed_directions_of_position[index_of_position]['direction'] == game.pygame.K_LEFT:
                     if self.position_of_head.x < position_of_direction.x and self.position_of_head.x > reversed_position_of_directions[index_of_position+1].x and self.position_of_head.y > position_of_direction.y-self.width/2 and self.position_of_head.y < position_of_direction.y+self.width/2:
-                        self._game.state='paused'
-                        print("left left")
+                        self._game.state = 'over'
+                        # print("left left")
                 # body line moving towards right
                 elif reversed_directions_of_position[index_of_position]['direction'] == game.pygame.K_RIGHT:
                     if self.position_of_head.x < reversed_position_of_directions[index_of_position+1].x and self.position_of_head.x > position_of_direction.x and self.position_of_head.y > position_of_direction.y-self.width/2 and self.position_of_head.y < position_of_direction.y+self.width/2:
-                        self._game.state='paused'
-                        print("left right")
+                        self._game.state = 'over'
+                        # print("left right")
                 # body line moving towards up
                 elif reversed_directions_of_position[index_of_position]['direction'] == game.pygame.K_UP:
                     if self.position_of_head.x < position_of_direction.x+self.width/2 and self.position_of_head.x > position_of_direction.x-self.width/2 and self.position_of_head.y < position_of_direction.y and self.position_of_head.y > reversed_position_of_directions[index_of_position+1].y:
-                        self._game.state='paused'
-                        print("left up")
+                        self._game.state = 'over'
+                        # print("left up")
                 # body line moving towards down
                 elif reversed_directions_of_position[index_of_position]['direction'] == game.pygame.K_DOWN:
                     if self.position_of_head.x < position_of_direction.x+self.width/2 and self.position_of_head.x > position_of_direction.x-self.width/2 and self.position_of_head.y > position_of_direction.y and self.position_of_head.y < reversed_position_of_directions[index_of_position+1].y:
-                        self._game.state='paused'
-                        print("left down")
+                        self._game.state = 'over'
+                        # print("left down")
             elif self.current_direction == game.pygame.K_RIGHT:  # snake moving down
                 # body line moving towards left
                 if reversed_directions_of_position[index_of_position]['direction'] == game.pygame.K_LEFT:
                     if self.position_of_head.x > reversed_position_of_directions[index_of_position+1].x and self.position_of_head.x < position_of_direction.x and self.position_of_head.y > position_of_direction.y-self.width/2 and self.position_of_head.y < position_of_direction.y+self.width/2:
-                        self._game.state='paused'
-                        print("right left")
+                        self._game.state = 'over'
+                        # print("right left")
                 # body line moving towards right
                 elif reversed_directions_of_position[index_of_position]['direction'] == game.pygame.K_RIGHT:
                     if self.position_of_head.x > position_of_direction.x and self.position_of_head.x < reversed_position_of_directions[index_of_position+1].x and self.position_of_head.y > position_of_direction.y-self.width/2 and self.position_of_head.y < position_of_direction.y+self.width/2:
-                        self._game.state='paused'
-                        print("right right")
+                        self._game.state = 'over'
+                        # print("right right")
                 # body line moving towards up
                 elif reversed_directions_of_position[index_of_position]['direction'] == game.pygame.K_UP:
                     if self.position_of_head.x > position_of_direction.x-self.width/2 and self.position_of_head.x < position_of_direction.x+self.width/2 and self.position_of_head.y > reversed_position_of_directions[index_of_position+1].y and self.position_of_head.y < position_of_direction.y:
-                        self._game.state='paused'
-                        print("right up")
+                        self._game.state = 'over'
+                        # print("right up")
                 # body line moving towards down
                 elif reversed_directions_of_position[index_of_position]['direction'] == game.pygame.K_DOWN:
                     if self.position_of_head.x > position_of_direction.x-self.width/2 and self.position_of_head.x < position_of_direction.x+self.width/2 and self.position_of_head.y > position_of_direction.y and self.position_of_head.y < reversed_position_of_directions[index_of_position+1].y:
-                        self._game.state='paused'
-                        print("right down")
+                        self._game.state = 'over'
+                        # print("right down")
 
     def search_for_food(self):
         for food in self.food_to_search_for:
@@ -376,6 +377,7 @@ class Snake():
                     elif self.directions_of_position[-1]['direction'] == game.pygame.K_RIGHT:
                         if self.position_of_directions[-1].x-(food.calorie/2) > 0:
                             self.position_of_directions[-1].x -= food.calorie/2
+                    self._game.update_caption()
 
     def total_body_length(self):
         length = 0
@@ -404,7 +406,7 @@ class Snake():
     def phase_shift(self):
         if not self._game.allow_through_wall:
             if self.position_of_head.x < 5 or self.position_of_head.x+5 >= self._game.PLAYGROUND.get_width() or self.position_of_head.y < 5 or self.position_of_head.y+5 >= self._game.PLAYGROUND.get_height():
-                self._game.state='paused'
+                self._game.state = 'paused'
         else:
             if not self.phase_shifted:
                 if self.current_direction == game.pygame.K_LEFT:
@@ -419,10 +421,10 @@ class Snake():
                             0, {'direction': self.current_direction, 'draw_next': True})
                         self.position_of_head.x = self.position_of_head.x+self._game.PLAYGROUND.get_width()
                         # reduce tail without recursing
-                        self.slither(False,False,False,False)
+                        self.slither(False, False, False, False)
                         self.phase_shifted = True
                 elif self.current_direction == game.pygame.K_RIGHT:
-                    if self.position_of_head.x >=self._game.PLAYGROUND.get_width():
+                    if self.position_of_head.x >= self._game.PLAYGROUND.get_width():
                         self.position_of_directions.insert(
                             0, game.pygame.Vector2(self._game.PLAYGROUND.get_width(), self.position_of_head.y))
                         self.directions_of_position.insert(
@@ -431,37 +433,39 @@ class Snake():
                             0, self.position_of_head.y))
                         self.directions_of_position.insert(
                             0, {'direction': self.current_direction, 'draw_next': True})
-                        self.position_of_head.x =self.position_of_head.x-self._game.PLAYGROUND.get_width()
+                        self.position_of_head.x = self.position_of_head.x-self._game.PLAYGROUND.get_width()
                         # reduce tail without recursing
-                        self.slither(False,False,False,False)
+                        self.slither(False, False, False, False)
                         self.phase_shifted = True
                 elif self.current_direction == game.pygame.K_UP:
-                    if self.position_of_head.y <1:
+                    if self.position_of_head.y < 1:
                         self.position_of_directions.insert(
-                            0, game.pygame.Vector2(self.position_of_head.x,0))
+                            0, game.pygame.Vector2(self.position_of_head.x, 0))
                         self.directions_of_position.insert(
                             0, {'direction': self.current_direction, 'draw_next': False})
                         self.position_of_directions.insert(0, game.pygame.Vector2(
-                            self.position_of_head.x,self._game.PLAYGROUND.get_height()))
+                            self.position_of_head.x, self._game.PLAYGROUND.get_height()))
                         self.directions_of_position.insert(
                             0, {'direction': self.current_direction, 'draw_next': True})
-                        self.position_of_head.y = self.position_of_head.y+self._game.PLAYGROUND.get_height()
+                        self.position_of_head.y = self.position_of_head.y + \
+                            self._game.PLAYGROUND.get_height()
                         # reduce tail without recursing
-                        self.slither(False,False,False,False)
+                        self.slither(False, False, False, False)
                         self.phase_shifted = True
                 elif self.current_direction == game.pygame.K_DOWN:
-                    if self.position_of_head.y >=self._game.PLAYGROUND.get_height():
+                    if self.position_of_head.y >= self._game.PLAYGROUND.get_height():
                         self.position_of_directions.insert(
-                            0, game.pygame.Vector2(self.position_of_head.x,self._game.PLAYGROUND.get_height()))
+                            0, game.pygame.Vector2(self.position_of_head.x, self._game.PLAYGROUND.get_height()))
                         self.directions_of_position.insert(
                             0, {'direction': self.current_direction, 'draw_next': False})
                         self.position_of_directions.insert(0, game.pygame.Vector2(
-                            self.position_of_head.x,0))
+                            self.position_of_head.x, 0))
                         self.directions_of_position.insert(
                             0, {'direction': self.current_direction, 'draw_next': True})
-                        self.position_of_head.y = self.position_of_head.y-self._game.PLAYGROUND.get_height()
+                        self.position_of_head.y = self.position_of_head.y - \
+                            self._game.PLAYGROUND.get_height()
                         # reduce tail without recursing
-                        self.slither(False,False,False,False)
+                        self.slither(False, False, False, False)
                         self.phase_shifted = True
             else:
                 self.phase_shifted = False

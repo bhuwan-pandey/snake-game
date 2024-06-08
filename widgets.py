@@ -192,33 +192,36 @@ class Paused_Window():
     def __init__(self, parent_surface: pygame.surface.Surface) -> None:
         # super().__init__()
         self._window: Window = Window(parent_surface)
-        self._window.title_text = 'Game Paused'
-        self._resume_button: Button = None
-        self._menu_button: Button = None
-        self._quit_button: Button = None
+        self._window.width = parent_surface.get_width()/2
+        self._window.height = parent_surface.get_height()/2
+        self._window.title_text = 'Information'
 
     def draw(self):
         if not self._window._surface:  # initialize window surface
             self._window.draw()
         if self._window.visible:
-            if not self._resume_button:  # resume button not initialized
-                self._resume_button = Button(self._window._surface, 'Resume')
-                self._resume_button.background_color = 'cyan'
-                self._resume_button.position = pygame.Vector2(
-                    (self._window.width/2-self._resume_button.width/2, 50))
-                self._resume_button.draw()
-            if not self._menu_button:  # resume button not initialized
-                self._menu_button = Button(self._window._surface, 'Main Menu')
-                self._menu_button.background_color = 'cyan'
-                self._menu_button.position = pygame.Vector2(
-                    (self._window.width/2-self._menu_button.width/2, 100))
-                self._menu_button.draw()
-            if not self._quit_button:  # resume button not initialized
-                self._quit_button = Button(self._window._surface, 'Quit Game')
-                self._quit_button.background_color = 'cyan'
-                self._quit_button.position = pygame.Vector2(
-                    (self._window.width/2-self._quit_button.width/2, 150))
-                self._quit_button.draw()
+            font_object = pygame.font.SysFont(
+                'Arial', 16)
+            text_surface1 = font_object.render(
+                '1. Press ESC to toggle between pause and resume game.', False, 'black')
+            self._window._surface.blit(text_surface1, (20, 50))
+            text_surface2 = font_object.render(
+                '2. Press B to toggle between bypassing/allowing through wall or not.', False, 'black')
+            text_surface3 = font_object.render(
+                '3. Press R to restart the game.', False, 'black')
+            text_surface4 = font_object.render(
+                '4. Press L to change the level of the game.', False, 'black')
+            text_surface5 = font_object.render(
+                '5. Press Q to quit the game.', False, 'black')
+            text_surface6 = font_object.render(
+                "*** Game data are displayed in the game's window title ***", False, 'black')
+            self._window._surface.blit(text_surface1, (20, 50))
+            self._window._surface.blit(text_surface2, (20, 80))
+            self._window._surface.blit(text_surface3, (20, 110))
+            self._window._surface.blit(text_surface4, (20, 140))
+            self._window._surface.blit(text_surface5, (20, 170))
+            self._window._surface.blit(
+                text_surface6, (self._window.width/2-text_surface6.get_width()/2, self._window.height-text_surface6.get_height()-10))
             self._window._parent_surface.blit(
                 self._window._surface, self._window.position)
         pygame.display.flip()

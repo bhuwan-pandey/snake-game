@@ -13,7 +13,7 @@ class Food():
         self.serve_count = 0  # count of served
         self.consume_count = 0  # count of consumed
         self.serve_time = 600000  # serve at new location every ms
-        self._game:game.Game=None # to access game state
+        self._game: game.Game = None  # to access game state
 
     def serve(self):
         pass
@@ -35,6 +35,7 @@ class NormalFood(Food):
                 self.size, self._game.PLAYGROUND.get_height()-self.size)
         game.pygame.draw.circle(
             self._game.PLAYGROUND, 'yellow', self.position, self.size)
+
 
 class SpecialFood(Food):
     def __init__(self) -> None:
