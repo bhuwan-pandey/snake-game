@@ -71,6 +71,7 @@ class Button(Style, Property):
             self._text_object.font_name, self._text_object.text_size, self._text_object.bold, self._text_object.italic)
         self._text_surface: pygame.surface.Surface = self._font_object.render(
             self._text_object.font_name, False, self._text_object.foreground_color, self._text_object.background_color)
+        self.on_click: function = None
 
     def __init__(self, _parent_surface: pygame.surface.Surface, button_text: str):
         super(Button, self).__init__()
@@ -90,6 +91,7 @@ class Button(Style, Property):
             self._text_object.font_name, self._text_object.text_size, self._text_object.bold, self._text_object.italic)
         self._text_surface: pygame.surface.Surface = self._font_object.render(
             button_text, False, self._text_object.foreground_color, self._text_object.background_color)
+        self.on_click: function = None
 
     def draw(self):
         if self.visible:
@@ -148,6 +150,9 @@ class Window(Property):
         self._text_surface: pygame.surface.Surface = None
         self._close_button: Button = None
 
+    def on_close(self):
+        self.visible = False
+
     def draw(self):
         if not self._surface and self._parent_surface:
             self._surface = pygame.surface.Surface((self.width, self.height))
@@ -169,13 +174,13 @@ class Window(Property):
             self._surface.blit(self._text_surface, (self.width/2 -
                                self._text_surface.get_width()/2, 30/2-self._text_surface.get_height()/2))
             # close button
-            if self._surface and not self._close_button:
-                self._close_button = Button(self._surface, 'X')
-                self._close_button.background_color = 'red'
-                self._close_button.foreground_color = 'white'
-                self._close_button.width = 25
-                self._close_button.position.x = self.width-self._close_button.width
-                self._close_button.draw()
+            # if self._surface and not self._close_button:
+            #     self._close_button = Button(self._surface, 'X')
+            #     self._close_button.background_color = 'red'
+            #     self._close_button.foreground_color = 'white'
+            #     self._close_button.width = 25
+            #     self._close_button.position.x = self.width-self._close_button.width
+            #     self._close_button.draw()
             # blit and render
             pygame.draw.line(self._surface, self.title_line_color,
                              (0, 30), (self._surface.get_width(), 30))
@@ -188,33 +193,32 @@ class Paused_Window():
         # super().__init__()
         self._window: Window = Window(parent_surface)
         self._window.title_text = 'Game Paused'
-        self.resume_button: Button = None
-        self.menu_button: Button = None
-        self.quit_button: Button = None
+        self._resume_button: Button = None
+        self._menu_button: Button = None
+        self._quit_button: Button = None
 
     def draw(self):
         if not self._window._surface:  # initialize window surface
             self._window.draw()
         if self._window.visible:
-            if not self.resume_button:  # resume button not initialized
-                self.resume_button = Button(self._window._surface, 'Resume')
-                self.resume_button.background_color = 'cyan'
-                self.resume_button.position = pygame.Vector2(
-                    (self._window.width/2-self.resume_button.width/2, 50))
-                self.resume_button.draw()
-            if not self.menu_button:  # resume button not initialized
-                self.menu_button = Button(self._window._surface, 'Main Menu')
-                self.menu_button.background_color = 'cyan'
-                self.menu_button.position = pygame.Vector2(
-                    (self._window.width/2-self.menu_button.width/2, 100))
-                self.menu_button.draw()
-            if not self.quit_button:  # resume button not initialized
-                self.quit_button = Button(self._window._surface, 'Quit Game')
-                self.quit_button.background_color = 'cyan'
-                self.quit_button.position = pygame.Vector2(
-                    (self._window.width/2-self.quit_button.width/2, 150))
-                # self.quit_button.on_click=lamda:
-                self.quit_button.draw()
+            if not self._resume_button:  # resume button not initialized
+                self._resume_button = Button(self._window._surface, 'Resume')
+                self._resume_button.background_color = 'cyan'
+                self._resume_button.position = pygame.Vector2(
+                    (self._window.width/2-self._resume_button.width/2, 50))
+                self._resume_button.draw()
+            if not self._menu_button:  # resume button not initialized
+                self._menu_button = Button(self._window._surface, 'Main Menu')
+                self._menu_button.background_color = 'cyan'
+                self._menu_button.position = pygame.Vector2(
+                    (self._window.width/2-self._menu_button.width/2, 100))
+                self._menu_button.draw()
+            if not self._quit_button:  # resume button not initialized
+                self._quit_button = Button(self._window._surface, 'Quit Game')
+                self._quit_button.background_color = 'cyan'
+                self._quit_button.position = pygame.Vector2(
+                    (self._window.width/2-self._quit_button.width/2, 150))
+                self._quit_button.draw()
             self._window._parent_surface.blit(
                 self._window._surface, self._window.position)
         pygame.display.flip()

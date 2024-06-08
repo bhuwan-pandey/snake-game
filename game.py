@@ -1,35 +1,36 @@
 import pygame
 from snake import Snake
-from food import NormalFood,SpecialFood
-from widgets import Button,Paused_Window
+from food import NormalFood, SpecialFood
+from widgets import Button, Paused_Window
 from typing import Literal
 
 pygame.init()
+pygame.display.set_caption('Snake')
+
 
 class Game():
     DISPLAY_INFO = pygame.display.Info()
     CLOCK = pygame.time.Clock()
-        
+
     def __init__(self) -> None:
         self.PLAYGROUND = pygame.display.set_mode(
             (Game.DISPLAY_INFO.current_w-500, Game.DISPLAY_INFO.current_h-250))
-        self._paused_window:Paused_Window=Paused_Window(self.PLAYGROUND)
-        self._time_delta=0
-        self.is_not_closed=True
-        self.state:Literal['resumed','paused','over']='paused'
-        self.allow_through_wall=True
-        self.move_speed=2
-        self.snake:Snake=Snake()
-        self.normal_food:NormalFood = NormalFood()
-        self.special_food:SpecialFood = SpecialFood()
+        self._paused_window: Paused_Window = Paused_Window(self.PLAYGROUND)
+        self._time_delta = 0
+        self.is_not_closed = True
+        self.state: Literal['resumed', 'paused', 'over'] = 'resumed'
+        self.allow_through_wall = True
+        self.move_speed = 2
+        self.snake: Snake = Snake()
+        self.normal_food: NormalFood = NormalFood()
+        self.special_food: SpecialFood = SpecialFood()
 
-    
     def initialize(self):
         self.snake.food_to_search_for = [self.normal_food, self.special_food]
-        self.snake._game=self
-        self.normal_food._game=self
-        self.special_food._game=self
-    
+        self.snake._game = self
+        self.normal_food._game = self
+        self.special_food._game = self
+
     def run(self):
         while self.is_not_closed:
             pressed_keys = pygame.key.get_pressed()
@@ -42,12 +43,13 @@ class Game():
                 if event.type == pygame.KEYUP and pressed_keys[pygame.K_ESCAPE]:
                     self.pause_or_resume()
 
-            if self.state=='paused':
+            if self.state == 'paused':
                 self.pause()
                 self._time_delta = Game.CLOCK.tick(60) / 1000
                 continue
-            
-            self.PLAYGROUND.fill('purple') # background color of main resume screen
+
+            # background color of main resume screen
+            self.PLAYGROUND.fill('purple')
 
             self.normal_food.serve()
             self.special_food.serve()
@@ -80,25 +82,15 @@ class Game():
         pygame.quit()
 
     def pause_or_resume(self):
-        if self.state=='paused':
+        if self.state == 'paused':
             self.resume()
-        elif self.state=='resumed':
+        elif self.state == 'resumed':
             self.pause()
-    
+
     def resume(self):
-        self.state='resumed'
+        self.state = 'resumed'
 
     def pause(self):
-        self.state='paused'
-        self._paused_window._window.background_color='green'
+        self.state = 'paused'
+        self._paused_window._window.background_color = 'green'
         self._paused_window.draw()
-        # self.resume()
-
-
-        # self._paused_window._surface.fill((100,100,100,100))
-        # resume_button = Button(self._paused_window._surface,"Resume")
-        # # resume_button.border_width=10
-        # resume_button.background_color='cyan'
-        # resume_button.draw()
-        # self.PLAYGROUND.blit(self._paused_window._surface,(self._paused_window._surface.get_width()/2-self._paused_window._surface.get_width()/2,self.PLAYGROUND.get_height()/2-self._paused_window._surface.get_height()/2))
-        # # pygame.display.flip()
