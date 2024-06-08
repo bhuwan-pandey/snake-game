@@ -208,9 +208,9 @@ class Paused_Window():
             text_surface2 = font_object.render(
                 '2. Press B to toggle between bypassing/allowing through wall or not.', False, 'black')
             text_surface3 = font_object.render(
-                '3. Press R to restart the game.', False, 'black')
+                '3. Press L to change the level of the game.', False, 'black')
             text_surface4 = font_object.render(
-                '4. Press L to change the level of the game.', False, 'black')
+                '4. Press R to restart the game.', False, 'black')
             text_surface5 = font_object.render(
                 '5. Press Q to quit the game.', False, 'black')
             text_surface6 = font_object.render(
