@@ -46,7 +46,6 @@ class Game():
                     try:
                         if line_counter == 1:
                             self.high_score = int(line)
-                            print(self.high_score, 'hs')
                         elif line_counter == 2:
                             self.move_speed = int(line)
                         elif line_counter == 3:
