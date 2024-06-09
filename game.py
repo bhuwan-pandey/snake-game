@@ -106,7 +106,7 @@ class Game():
                             if self.move_speed >= 10:
                                 self.move_speed = 2
                             else:
-                                self.move_speed *= 2
+                                self.move_speed += 2
                             self.update_caption()
 
             if self.state == 'paused':
