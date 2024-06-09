@@ -150,7 +150,6 @@ class Snake():
         # finally connect to head
         game.pygame.draw.line(self._game.PLAYGROUND, "red", (self.position_of_directions[0].x, self.position_of_directions[0].y), (
             self.position_of_head.x, self.position_of_head.y), self.width)
-
         # draw head/curve and the eyes
         if self.current_direction == game.pygame.K_UP:
             # head
@@ -208,6 +207,19 @@ class Snake():
                                                                  self.position_of_head.y), (self.position_of_head.x+8, self.position_of_head.y-2), 1)
             game.pygame.draw.line(self._game.PLAYGROUND, 'red', (self.position_of_head.x,
                                                                  self.position_of_head.y), (self.position_of_head.x+8, self.position_of_head.y+2), 1)
+        # tail
+        if self.directions_of_position[-1]['direction'] == game.pygame.K_UP:
+            game.pygame.draw.polygon(self._game.PLAYGROUND, 'red', [
+                (self.position_of_directions[-1].x-(self.width/2)+1, self.position_of_directions[-1].y), (self.position_of_directions[-1].x+(self.width/2), self.position_of_directions[-1].y), (self.position_of_directions[-1].x+1, self.position_of_directions[-1].y+self.width/2)])
+        elif self.directions_of_position[-1]['direction'] == game.pygame.K_DOWN:
+            game.pygame.draw.polygon(self._game.PLAYGROUND, 'red', [
+                (self.position_of_directions[-1].x-(self.width/2)+1, self.position_of_directions[-1].y), (self.position_of_directions[-1].x+(self.width/2), self.position_of_directions[-1].y), (self.position_of_directions[-1].x+1, self.position_of_directions[-1].y-self.width/2)])
+        elif self.directions_of_position[-1]['direction'] == game.pygame.K_LEFT:
+            game.pygame.draw.polygon(self._game.PLAYGROUND, 'red', [
+                (self.position_of_directions[-1].x, self.position_of_directions[-1].y-(self.width/2)+1), (self.position_of_directions[-1].x, self.position_of_directions[-1].y+(self.width/2)), (self.position_of_directions[-1].x+self.width/2, self.position_of_directions[-1].y+1)])
+        elif self.directions_of_position[-1]['direction'] == game.pygame.K_RIGHT:
+            game.pygame.draw.polygon(self._game.PLAYGROUND, 'red', [
+                (self.position_of_directions[-1].x, self.position_of_directions[-1].y-(self.width/2)+1), (self.position_of_directions[-1].x, self.position_of_directions[-1].y+(self.width/2)), (self.position_of_directions[-1].x-self.width/2, self.position_of_directions[-1].y+1)])
 
     def get_horizontal_body_coordinates(self):
         coordinates = []
