@@ -121,7 +121,7 @@ class Game():
                 continue
 
             # background color of main resume screen
-            self.PLAYGROUND.fill('purple')
+            # self.PLAYGROUND.fill('purple')
 
             self.normal_food.serve()
             self.special_food.serve()
