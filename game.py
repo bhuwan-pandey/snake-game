@@ -32,6 +32,8 @@ class Game():
     def initialize(self):
         # self.game_has_started = False
         self.snake: Snake = Snake()
+        self.snake.position_of_head.x=self.PLAYGROUND.get_width()/2
+        self.snake.position_of_directions[0].x=self.snake.position_of_head.x+10
         self.normal_food: NormalFood = NormalFood()
         self.special_food: SpecialFood = SpecialFood()
         self.snake.food_to_search_for = [self.normal_food, self.special_food]
@@ -115,8 +117,8 @@ class Game():
                 continue
 
             if self.state == 'over':
-                self.pause()
                 self.initialize()
+                self.pause()
                 self._time_delta = Game.CLOCK.tick(60) / 1000
                 continue
 
